@@ -1,27 +1,76 @@
-# AngularSignalsDebugger
+# Signals Debugger
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.5.
+The `signals-debugger` library provides utilities to trace, debug, and visualize Angular signals. It helps developers inspect signal values, track updates, and understand dependencies between signals in Angular applications.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Trace Signal Updates**: Log signal values and updates in real-time.
+- **Track Dependencies**: Visualize relationships between signals.
+- **View Signal Values**: Inspect the current value of any signal.
+- **Dependency Graph**: View a complete graph of signals and their dependencies.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Install the library using npm:
 
-## Build
+```bash
+npm install signals-debugger
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Usage
 
-## Running unit tests
+To use the `signals-debugger` library in your Angular application, follow these steps:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **Import and Inject the Service**  
+  Import the `SignalDebuggerService` and inject it into your component or service where you want to debug signals.
 
-## Running end-to-end tests
+  ```typescript
+  import { Component, Signal } from '@angular/core';
+  import { SignalDebuggerService } from 'signals-debugger';
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+  @Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+  })
+  export class AppComponent {
+    mySignal = new Signal<number>(0);
 
-## Further help
+    constructor(private signalDebugger: SignalDebuggerService) {
+     // Trace the signal
+     this.signalDebugger.traceSignal(this.mySignal, 'mySignal');
+    }
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+    updateSignal() {
+     this.mySignal.set(this.mySignal() + 1);
+    }
+  }
+  ```
+
+2. **Trace Signal Updates**  
+  Use the `traceSignal` method to log signal values and updates in real-time.
+
+3. **Track Dependencies**  
+  Use the `trackDependency` method to define relationships between signals.
+
+  ```typescript
+  this.signalDebugger.trackDependency('signalA', 'signalB');
+  ```
+
+4. **View Signal Values**  
+  Use the `viewSignalValue` method to inspect the current value of a signal.
+
+  ```typescript
+  const value = this.signalDebugger.viewSignalValue('mySignal');
+  console.log('Current value of mySignal:', value);
+  ```
+
+5. **View Dependency Graph**  
+  Use the `viewDependencyGraph` method to log the entire dependency graph of signals.
+
+  ```typescript
+  this.signalDebugger.viewDependencyGraph();
+  ```
+
+By following these steps, you can effectively debug and visualize signals in your Angular application.
+
